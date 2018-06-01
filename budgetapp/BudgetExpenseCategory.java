@@ -1,0 +1,67 @@
+package budgetapp;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Hashtable;
+
+
+public class BudgetExpenseCategory {
+
+	private Hashtable<String, ArrayList<String>> categories = new Hashtable<String, ArrayList<String>>();
+	private String primary = "";
+	private String sub = "";
+	
+	BudgetExpenseCategory(){
+		populateSubCategories();
+	}
+	
+	private void populateSubCategories(){
+		String[] aHousing = new String[]{"Rent","Phone","Electricity","Gas","Water/Sewage","Cable/Internet","Supplies","Parking"};
+		categories.put("Housing", (ArrayList<String>) Arrays.asList(aHousing));
+		
+		String[] aTransport = new String[]{"Vehicle Payment","Insurance","Licensing","Fuel","Maintenance Fund","Misc"};
+		categories.put("Transportation", (ArrayList<String>) Arrays.asList(aTransport));
+		
+		String[] aInsurance = new String[]{"Renters","Health","Life","Other"};
+		categories.put("Insurance", (ArrayList<String>) Arrays.asList(aInsurance));
+		
+		String[] aPersonal = new String[]{"Medical","Hair","Clothing","Supplies"};
+		categories.put("Personal Care", (ArrayList<String>) Arrays.asList(aPersonal));
+		
+		String[] aEntertain = new String[]{"Video/DVD","Music","Movies","Concerts","Sporting Events","Games","Travel"};
+		categories.put("Entertainment", (ArrayList<String>) Arrays.asList(aEntertain));
+		
+		String[] aPets = new String[]{"Food","Medical","Grooming","Toys","Supplies"};
+		categories.put("Pets", (ArrayList<String>) Arrays.asList(aPets));
+		
+		String[] aFood = new String[]{"Groceries","Dining Out","Other/Bars","Coffee"};
+		categories.put("Food", (ArrayList<String>) Arrays.asList(aFood));
+	}
+	public Hashtable<String, ArrayList<String>> getAllCategories(){
+		return categories;
+	}
+	
+	public String getPrimaryCategory(){
+		return primary;
+	}
+	public void setPrimaryCategory(String primary){
+		this.primary = primary;
+	}
+	
+	public String getSubCategory(){
+		return sub;
+	}
+	public void setSubCategory(String sub){
+		this.sub = sub;
+	}
+	
+	public void addPrimaryCategory(String cat){
+		categories.put(cat, new ArrayList<String>());
+	}
+	public void addSubCategory(String cat, String sub){
+		categories.get(cat).add(sub);
+	}
+	public void addSubCategories(String cat, String[] subs){
+		categories.get(cat).addAll((ArrayList<String>) Arrays.asList(subs));
+	}
+}
