@@ -2,13 +2,10 @@ package budgetapp;
 
 import java.awt.EventQueue;
 
-import javax.swing.JFrame;
 
 
 
 public class BudgetApp {
-
-	private JFrame frame;
 
 	/**
 	 * Create the application.
@@ -24,8 +21,7 @@ public class BudgetApp {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BudgetApp window = new BudgetApp();
-					window.frame.setVisible(true);
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
