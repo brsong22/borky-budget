@@ -1,7 +1,13 @@
 package budgetapp;
 
+import java.awt.BorderLayout;
+import java.awt.Choice;
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -10,18 +16,73 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.JList;
+import javax.swing.SpringLayout;
 
-public class BudgetView {
+public class BudgetView extends JFrame{
 
-	private JFrame frame;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JLabel lblNewLabel;
-	private JLabel lblNewLabel_1;
-	private JLabel lblNewLabel_2;
-	private JLabel lblNewLabel_3;
+	private JList<BudgetViewItem> expenseList;
 
+	
+	/**
+	 * Create the application.
+	 */
+	public BudgetView(BudgetExpenseModel[] expenses) {
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		getContentPane().setLayout(new BorderLayout());
+		
+		JPanel expenseListView = new JPanel();
+		expenseListView.setLayout(new BorderLayout());
+		expenseListView.setPreferredSize(new Dimension(600, 400));
+		DefaultListModel<BudgetViewItem> list = new DefaultListModel<BudgetViewItem>();
+		for(BudgetExpenseModel b : expenses){
+			BudgetViewItem i = new BudgetViewItem(b);
+			list.addElement(i);
+		}
+		expenseList = new JList<BudgetViewItem>(list);
+		JScrollPane scrollExpense = new JScrollPane(expenseList);
+		expenseListView.add(scrollExpense, BorderLayout.CENTER);
+		getContentPane().add(expenseListView, BorderLayout.CENTER);
+		
+		JPanel expenseFormView = new JPanel();
+		expenseFormView.setLayout(new GridBagLayout());
+		expenseFormView.setPreferredSize(new Dimension(600, 50));
+		GridBagConstraints gbc = new GridBagConstraints();
+		
+		Choice primaryCat = new Choice();
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.weightx = 0.1;
+		expenseFormView.add(primaryCat, gbc);
+		
+		Choice subCat = new Choice();
+		gbc.gridx = 1;
+		expenseFormView.add(subCat, gbc);
+		
+		JButton newExpenseBtn = new JButton("Add Expense");
+		gbc.gridx = 5;
+		expenseFormView.add(newExpenseBtn, gbc);
+		
+		gbc.ipady = 1;
+		JTextField expenseAmount = new JTextField();
+		gbc.gridx = 2;
+		expenseFormView.add(expenseAmount, gbc);
+		
+		JTextField expenseSpender = new JTextField();
+		gbc.gridx = 3;
+		expenseFormView.add(expenseSpender, gbc);
+		
+		JTextField expenseDate = new JTextField();
+		gbc.gridx = 4;
+		expenseFormView.add(expenseDate, gbc);
+		
+		
+		getContentPane().add(expenseFormView, BorderLayout.SOUTH);
+		this.pack();
+		this.setVisible(true);
+	}
+	
 	/**
 	 * Launch the application.
 	 */
@@ -29,86 +90,12 @@ public class BudgetView {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BudgetView window = new BudgetView();
-					window.frame.setVisible(true);
+					BudgetExpenseModel[] b = {};
+					BudgetView window = new BudgetView(b);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-	}
-
-	/**
-	 * Create the application.
-	 */
-	public BudgetView() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 601, 410);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 316, 585, 55);
-		frame.getContentPane().add(panel_1);
-		panel_1.setLayout(null);
-		
-		textField_2 = new JTextField();
-		textField_2.setBounds(202, 30, 86, 20);
-		panel_1.add(textField_2);
-		textField_2.setColumns(10);
-		
-		textField_3 = new JTextField();
-		textField_3.setBounds(298, 30, 86, 20);
-		panel_1.add(textField_3);
-		textField_3.setColumns(10);
-		
-		textField_4 = new JTextField();
-		textField_4.setBounds(394, 30, 86, 20);
-		panel_1.add(textField_4);
-		textField_4.setColumns(10);
-		
-		JLabel label = new JLabel("New label");
-		label.setBounds(10, 11, 86, 19);
-		panel_1.add(label);
-		
-		lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(106, 13, 46, 14);
-		panel_1.add(lblNewLabel);
-		
-		lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setBounds(202, 13, 46, 14);
-		panel_1.add(lblNewLabel_1);
-		
-		lblNewLabel_2 = new JLabel("New label");
-		lblNewLabel_2.setBounds(298, 13, 46, 14);
-		panel_1.add(lblNewLabel_2);
-		
-		lblNewLabel_3 = new JLabel("New label");
-		lblNewLabel_3.setBounds(394, 13, 46, 14);
-		panel_1.add(lblNewLabel_3);
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(10, 30, 86, 20);
-		panel_1.add(comboBox);
-		
-		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(106, 30, 86, 20);
-		panel_1.add(comboBox_1);
-		
-		JButton btnNewButton = new JButton("New button");
-		btnNewButton.setBounds(490, 29, 85, 21);
-		panel_1.add(btnNewButton);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(0, 0, 585, 316);
-		frame.getContentPane().add(scrollPane);
 	}
 }
