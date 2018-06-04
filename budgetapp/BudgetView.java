@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.time.LocalDate;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -34,13 +36,14 @@ public class BudgetView extends JFrame{
 		JPanel expenseListView = new JPanel();
 		expenseListView.setLayout(new BorderLayout());
 		expenseListView.setPreferredSize(new Dimension(600, 400));
+		
 		DefaultListModel<BudgetViewItem> list = new DefaultListModel<BudgetViewItem>();
 		for(BudgetExpenseModel b : expenses){
-			BudgetViewItem i = new BudgetViewItem(b);
-			list.addElement(i);
+//			BudgetViewItem i = new BudgetViewItem(b, expenseListView);
+			list.addElement(new BudgetViewItem(b, expenseListView));
 		}
 		expenseList = new JList<BudgetViewItem>(list);
-		JScrollPane scrollExpense = new JScrollPane(expenseList);
+		JScrollPane scrollExpense = new JScrollPane(expenseList,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		expenseListView.add(scrollExpense, BorderLayout.CENTER);
 		getContentPane().add(expenseListView, BorderLayout.CENTER);
 		
@@ -48,6 +51,7 @@ public class BudgetView extends JFrame{
 		expenseFormView.setLayout(new GridBagLayout());
 		expenseFormView.setPreferredSize(new Dimension(600, 50));
 		GridBagConstraints gbc = new GridBagConstraints();
+		gbc.insets = new Insets(0, 1, 0, 1);
 		
 		Choice primaryCat = new Choice();
 		gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -90,7 +94,9 @@ public class BudgetView extends JFrame{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BudgetExpenseModel[] b = {};
+					BudgetExpenseCategory bec = new BudgetExpenseCategory("Test","test");
+					LocalDate today = LocalDate.now();
+					BudgetExpenseModel[] b = {new BudgetExpenseModel(bec, "richard", today)};
 					BudgetView window = new BudgetView(b);
 				} catch (Exception e) {
 					e.printStackTrace();

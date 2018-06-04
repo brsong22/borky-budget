@@ -12,30 +12,34 @@ public class BudgetExpenseCategory {
 	private String sub = "";
 	
 	BudgetExpenseCategory(){
-		populateSubCategories();
+		populateCategories();
 	}
-	
-	private void populateSubCategories(){
+	BudgetExpenseCategory(String primaryCategory, String subCategory){
+		populateCategories();
+		setPrimaryCategory(primaryCategory);
+		setSubCategory(subCategory);
+	}
+	private void populateCategories(){
 		String[] aHousing = new String[]{"Rent","Phone","Electricity","Gas","Water/Sewage","Cable/Internet","Supplies","Parking"};
-		categories.put("Housing", (ArrayList<String>) Arrays.asList(aHousing));
+		categories.put("Housing", new ArrayList<String>(Arrays.asList(aHousing)));
 		
 		String[] aTransport = new String[]{"Vehicle Payment","Insurance","Licensing","Fuel","Maintenance Fund","Misc"};
-		categories.put("Transportation", (ArrayList<String>) Arrays.asList(aTransport));
+		categories.put("Transportation", new ArrayList<String>(Arrays.asList(aTransport)));
 		
 		String[] aInsurance = new String[]{"Renters","Health","Life","Other"};
-		categories.put("Insurance", (ArrayList<String>) Arrays.asList(aInsurance));
+		categories.put("Insurance", new ArrayList<String>(Arrays.asList(aInsurance)));
 		
 		String[] aPersonal = new String[]{"Medical","Hair","Clothing","Supplies"};
-		categories.put("Personal Care", (ArrayList<String>) Arrays.asList(aPersonal));
+		categories.put("Personal Care", new ArrayList<String>(Arrays.asList(aPersonal)));
 		
 		String[] aEntertain = new String[]{"Video/DVD","Music","Movies","Concerts","Sporting Events","Games","Travel"};
-		categories.put("Entertainment", (ArrayList<String>) Arrays.asList(aEntertain));
+		categories.put("Entertainment", new ArrayList<String>(Arrays.asList(aEntertain)));
 		
 		String[] aPets = new String[]{"Food","Medical","Grooming","Toys","Supplies"};
-		categories.put("Pets", (ArrayList<String>) Arrays.asList(aPets));
+		categories.put("Pets", new ArrayList<String>(Arrays.asList(aPets)));
 		
 		String[] aFood = new String[]{"Groceries","Dining Out","Other/Bars","Coffee"};
-		categories.put("Food", (ArrayList<String>) Arrays.asList(aFood));
+		categories.put("Food", new ArrayList<String>(Arrays.asList(aFood)));
 	}
 	public Hashtable<String, ArrayList<String>> getAllCategories(){
 		return categories;
