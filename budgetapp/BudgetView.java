@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
@@ -23,7 +24,7 @@ import javax.swing.SpringLayout;
 
 public class BudgetView extends JFrame{
 
-	private JList<BudgetViewItem> expenseList;
+	private JTable expenseTable;
 
 	
 	/**
@@ -37,13 +38,16 @@ public class BudgetView extends JFrame{
 		expenseListView.setLayout(new BorderLayout());
 		expenseListView.setPreferredSize(new Dimension(600, 400));
 		
-		DefaultListModel<BudgetViewItem> list = new DefaultListModel<BudgetViewItem>();
+		String[] header = BudgetExpenseModel.getHeaders();
+		String[][] data = new String[expenses.length][header.length];
+		int count = 0;
 		for(BudgetExpenseModel b : expenses){
-//			BudgetViewItem i = new BudgetViewItem(b, expenseListView);
-			list.addElement(new BudgetViewItem(b, expenseListView));
+			data[count] = b.getData();
+			count++;
 		}
-		expenseList = new JList<BudgetViewItem>(list);
-		JScrollPane scrollExpense = new JScrollPane(expenseList,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		expenseTable = new JTable(data, header);
+		JScrollPane scrollExpense = new JScrollPane(expenseTable);
+		expenseTable.setFillsViewportHeight(true);
 		expenseListView.add(scrollExpense, BorderLayout.CENTER);
 		getContentPane().add(expenseListView, BorderLayout.CENTER);
 		
@@ -96,7 +100,7 @@ public class BudgetView extends JFrame{
 				try {
 					BudgetExpenseCategory bec = new BudgetExpenseCategory("Test","test");
 					LocalDate today = LocalDate.now();
-					BudgetExpenseModel[] b = {new BudgetExpenseModel(bec, "richard", today)};
+					BudgetExpenseModel[] b = {new BudgetExpenseModel(bec, "richard", today), new BudgetExpenseModel(bec, "becky", today)};
 					BudgetView window = new BudgetView(b);
 				} catch (Exception e) {
 					e.printStackTrace();

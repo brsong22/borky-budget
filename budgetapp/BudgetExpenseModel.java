@@ -56,4 +56,12 @@ public class BudgetExpenseModel {
 	public LocalDate getDate(){
 		return this.date;
 	}
+	
+	public String[] getData(){
+		return new String[]{this.getPrimaryCategory(), this.getSubCategory(), this.getAmount(), this.getSpender(), this.getDate().toString()};
+	}
+	
+	public static String[] getHeaders(){
+		return new String[]{"Primary Cat.", "Sub Cat.", "Amount", "Spender", "Date"};
+	}
 }
