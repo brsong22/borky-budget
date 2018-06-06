@@ -1,18 +1,24 @@
 package budgetapp;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 
 public class BudgetExpenseModel {
 	
 	private String primary;
 	private String sub;
-	private String amount = "0.00";
+	String amount = "0.00";
 	private String spender;
 	private LocalDate date = LocalDate.now();
+	private static NumberFormat formatter = new DecimalFormat("#0.00");
 	
-	BudgetExpenseModel(BudgetExpenseCategory cats, String spender, LocalDate date){
-		primary = cats.getPrimaryCategory();
-		sub = cats.getSubCategory();
+	BudgetExpenseModel(){};
+	BudgetExpenseModel(String p, String s, Double amt, String spender, LocalDate date){
+		
+		this.primary = p;
+		this.sub = s;
+		this.amount = formatter.format(amt);
 		this.spender = spender;
 		this.date = date;
 	}
@@ -26,7 +32,7 @@ public class BudgetExpenseModel {
 	}
 	
 	public void setAmount(Double amt){
-		this.amount = String.format("%.2f", amt);
+		this.amount = formatter.format(amt);
 	}
 	
 	public void setSpender(String name){
@@ -58,7 +64,7 @@ public class BudgetExpenseModel {
 	}
 	
 	public String[] getData(){
-		return new String[]{this.getPrimaryCategory(), this.getSubCategory(), this.getAmount(), this.getSpender(), this.getDate().toString()};
+		return new String[]{this.getPrimaryCategory(), this.getSubCategory(), this.getAmount().toString(), this.getSpender(), this.getDate().toString()};
 	}
 	
 	public static String[] getHeaders(){

@@ -5,11 +5,11 @@ import java.time.LocalDate;
 public class BudgetController {
 	
 	private BudgetExpenseModel budgetModel;
-	private BudgetView budgetView;
+	private static BudgetView budgetView;
 	
 	public BudgetController(BudgetExpenseModel model, BudgetView view){
 		this.budgetModel = model;
-		this.budgetView = view;
+		BudgetController.budgetView = view;
 	}
 	
 	public void setExpensePrimaryCategory(String cat){
@@ -33,6 +33,11 @@ public class BudgetController {
 	}
 	
 	public void viewAddExpense(BudgetExpenseModel expense){
-		view.addExpense(expense);
+		budgetView.addNewExpense(expense);
+	}
+	
+	public static void createNewExpense(String pCat, String sCat, Double amt, String spender, LocalDate date){
+		BudgetExpenseModel newExpense = new BudgetExpenseModel(pCat, sCat, amt, spender, date);
+		budgetView.addNewExpense(newExpense);
 	}
 }

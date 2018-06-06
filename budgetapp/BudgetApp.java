@@ -1,31 +1,19 @@
 package budgetapp;
 
-import java.awt.EventQueue;
-
-
-
+import java.time.LocalDate;
 
 public class BudgetApp {
 
-	/**
-	 * Create the application.
-	 */
-	public BudgetApp() {
-		
+	private static BudgetExpenseModel[] getSavedExpenses(){
+		LocalDate today = LocalDate.now();
+		BudgetExpenseModel[] b = {new BudgetExpenseModel("Test", "test", 1.5, "richard", today), new BudgetExpenseModel("Test", "test", 5., "becky", today)};
+		return b;
 	}
-	
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		BudgetExpenseModel[] savedExpenses = getSavedExpenses();
+		BudgetView v = new BudgetView(savedExpenses);
+		BudgetExpenseModel m = new BudgetExpenseModel();
+		new BudgetController(m, v);
 	}
+
 }
