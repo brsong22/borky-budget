@@ -37,7 +37,12 @@ public class BudgetController {
 	}
 	
 	public static void createNewExpense(String pCat, String sCat, Double amt, String spender, LocalDate date){
-		BudgetExpenseModel newExpense = new BudgetExpenseModel(pCat, sCat, amt, spender, date);
+		BudgetExpenseModel newExpense = new BudgetExpenseModel();
+		newExpense.setPrimaryCategory(pCat);
+		newExpense.setSubCategory(sCat);
+		newExpense.setAmount(amt);
+		newExpense.setSpender(spender);
+		newExpense.setDate(date);
 		budgetView.addNewExpense(newExpense);
 	}
 }
