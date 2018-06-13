@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -30,43 +32,39 @@ import javax.swing.table.DefaultTableModel;
 public class BudgetView extends JFrame{
 
 	private JTable expenseTable;
-//	private Choice primaryCat;
-//	private Choice subCat;
-//	private JTextField expenseAmount;
-//	private JTextField expenseSpender;
-//	private Choice expenseDate;
 	private JPanel expenseListView;
 	private Hashtable<String, ArrayList<String>> categories;
-	private String[] headers;
-	private String[][] data;
 	
 	/**
 	 * Create the application.
 	 */
-	public BudgetView(BudgetExpenseModel[] expenses) {
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public BudgetView() {
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent e){
+				System.out.println("closing");
+				if(BudgetController.saveExpenses()){
+					dispose();
+					System.exit(0);	
+				}
+			}
+		});
 		this.getContentPane().setLayout(new BorderLayout());
 		
 		this.categories = new BudgetExpenseCategory().getAllCategories();
-		this.expenseListView = new JPanel();
-		
-		this.headers = BudgetExpenseModel.getHeaders();
-		this.data = new String[expenses.length][headers.length];
-		populateExpenseTableView(expenses);
-		
+		expenseListView = new JPanel();
+		expenseListView.setLayout(new BorderLayout());
+		expenseListView.setPreferredSize(new Dimension(600, 400));
 		JPanel expenseFormView = new JPanel();
 		populateExpenseFormView(expenseFormView);
 		
 		this.getContentPane().add(expenseListView, BorderLayout.CENTER);
 		this.getContentPane().add(expenseFormView, BorderLayout.SOUTH);
-		this.pack();
-		this.setVisible(true);
 	}
 	
-	private void populateExpenseTableView(BudgetExpenseModel[] expenses){
-		expenseListView.setLayout(new BorderLayout());
-		expenseListView.setPreferredSize(new Dimension(600, 400));
-
+	public void populateExpenseTableView(BudgetExpenseModel[] expenses, String[] headers){
+		String[][] data = new String[expenses.length][headers.length];
+		
 		int count = 0;
 		for(BudgetExpenseModel b : expenses){
 			data[count] = b.getData();
@@ -76,6 +74,8 @@ public class BudgetView extends JFrame{
 		JScrollPane scrollExpense = new JScrollPane(expenseTable);
 		expenseTable.setFillsViewportHeight(true);
 		expenseListView.add(scrollExpense, BorderLayout.CENTER);
+		this.pack();
+		this.setVisible(true);
 	}
 	
 	private void populateExpenseFormView(JPanel expenseFormView){
@@ -160,20 +160,4 @@ public class BudgetView extends JFrame{
 		DefaultTableModel t = (DefaultTableModel) expenseTable.getModel();
 		t.addRow(expense.getData());
 	}
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					LocalDate today = LocalDate.now();
-//					BudgetExpenseModel[] b = {new BudgetExpenseModel("Test", "test", 0.00, "richard", today), new BudgetExpenseModel("Test", "test", 5., "becky", today)};
-//					BudgetView window = new BudgetView(b);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 }
