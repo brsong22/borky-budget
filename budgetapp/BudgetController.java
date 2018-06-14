@@ -89,6 +89,15 @@ public class BudgetController {
 		return false;
 	}
 	
+	public static boolean deleteExpense(int index){
+		System.out.println(index);
+		System.out.println(expenseBook.size());
+		if(expenseBook.remove(index) != null){
+			System.out.println(expenseBook.size());
+			return true;
+		}
+		else return false;
+	}
 	public static BudgetExpenseModel[] getSavedExpenses(){
 		try{
 			File f = new File("borkyexpenses.txt");

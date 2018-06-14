@@ -11,6 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.time.LocalDate;
@@ -20,7 +22,9 @@ import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -71,8 +75,36 @@ public class BudgetView extends JFrame{
 			count++;
 		}
 		expenseTable = new JTable(new DefaultTableModel(data, headers));
-		JScrollPane scrollExpense = new JScrollPane(expenseTable);
 		expenseTable.setFillsViewportHeight(true);
+		expenseTable.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseReleased(MouseEvent e){
+				int row = expenseTable.rowAtPoint(e.getPoint());
+				if(row >= 0 && row < expenseTable.getRowCount()){
+					expenseTable.setRowSelectionInterval(row, row);
+				}
+				else{
+					expenseTable.clearSelection();
+				}
+				if(expenseTable.getSelectedRow() < 0){
+					return;
+				}
+				JPopupMenu popupMenu = new JPopupMenu();
+				JMenuItem deleteExpense = new JMenuItem("Delete Expense");
+				deleteExpense.addActionListener(new ActionListener(){
+					@Override
+					public void actionPerformed(ActionEvent a){
+						if(BudgetController.deleteExpense(expenseTable.getSelectedRow())){
+							((DefaultTableModel)expenseTable.getModel()).removeRow(expenseTable.getSelectedRow());
+						}
+						System.out.println("delete clicked");
+					}
+				});
+				popupMenu.add(deleteExpense);
+				popupMenu.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+		JScrollPane scrollExpense = new JScrollPane(expenseTable);
 		expenseListView.add(scrollExpense, BorderLayout.CENTER);
 		this.pack();
 		this.setVisible(true);
